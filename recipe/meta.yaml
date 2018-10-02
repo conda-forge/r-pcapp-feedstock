@@ -1,5 +1,4 @@
-{% set version = '1.9-61' %}
-
+{% set version = '1.9-73' %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,13 +9,13 @@ package:
 source:
   fn: pcaPP_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/pcaPP_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz
-  sha256: 7dc395e159ff1a56135baaf0b1bea40f871c30f6dadd38992f4ccdfc4e88dc29
+    - {{ cran_mirror }}/src/contrib/pcaPP_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz
+  sha256: ca4566b0babfbe83ef9418283b08a12b3420dc362f93c6562f265df7926b53fc
 
 build:
   merge_build_host: True  # [win]
-  number: 1
+  number: 0
   skip: true  # [win32]
   rpaths:
     - lib/R/lib/
@@ -24,31 +23,42 @@ build:
 
 requirements:
   build:
-    - posix                # [win]
-    - {{ compiler('c') }}        # [unix]
-    - {{ compiler('m2w64_c') }}  # [win]
-    - {{ compiler('cxx') }}        # [unix]
-    - {{ compiler('m2w64_cxx') }}  # [win]
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
     - r-mvtnorm
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-mvtnorm
 
 test:
   commands:
-    - $R -e "library('pcaPP')"  # [not win]
+    - $R -e "library('pcaPP')"           # [not win]
     - "\"%R%\" -e \"library('pcaPP')\""  # [win]
 
 about:
   home: https://CRAN.R-project.org/package=pcaPP
   license: GPL (>= 3)
-  summary: Provides functions for robust PCA by projection pursuit.
+  summary: Provides functions for robust PCA by projection pursuit. The methods are described
+    in Croux et al. (2006) <doi:10.2139/ssrn.968376>, Croux et al. (2013) <doi:10.1080/00401706.2012.727746>,
+    Todorov and Filzmoser (2013) <doi:10.1007/978-3-642-33042-1_31>.
   license_family: GPL3
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3'  # [unix]
+  license_file: '{{ environ["PREFIX"] }}\R\share\licenses\GPL-3'  # [win]
 
 extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
+    - daler
+    - jdblischak
+    - cbrueffer
+    - dbast
