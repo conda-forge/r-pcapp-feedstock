@@ -7,7 +7,6 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: pcaPP_{{ version }}.tar.gz
   url:
     - {{ cran_mirror }}/src/contrib/pcaPP_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz
@@ -15,8 +14,7 @@ source:
 
 build:
   merge_build_host: True  # [win]
-  number: 1001
-  skip: true  # [win32]
+  number: 1002
   rpaths:
     - lib/R/lib/
     - lib/
@@ -33,6 +31,8 @@ requirements:
     - {{posix}}coreutils         # [win]
     - {{posix}}zip               # [win]
   host:
+    - libblas
+    - liblapack
     - r-base
     - r-mvtnorm
   run:
@@ -57,9 +57,3 @@ about:
 extra:
   recipe-maintainers:
     - conda-forge/r
-    - johanneskoester
-    - bgruening
-    - daler
-    - jdblischak
-    - cbrueffer
-    - dbast
