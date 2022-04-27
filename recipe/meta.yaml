@@ -1,4 +1,4 @@
-{% set version = "1.9-74" %}
+{% set version = "2.0-1" %}
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
 
@@ -10,7 +10,7 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/pcaPP_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz
-  sha256: 50837b434d67e4b5fcec34c689a9e30c7a9fb94c561b39f24e68a1456ff999b6
+  sha256: 9690e2f263162452d5a14bd8c52264cb70b317d30907411af4e5b6df4086121a
 
 build:
   merge_build_host: true  # [win]
