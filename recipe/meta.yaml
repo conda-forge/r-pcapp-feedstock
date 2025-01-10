@@ -12,7 +12,7 @@ source:
   sha256: 674faed967016a19f9d927506d6b3f4fc7ff2b2ab5679b2368429ee2c61b7c10
 
 build:
-  number: 0
+  number: 1
   rpaths:
     - lib/R/lib/
     - lib/
@@ -30,6 +30,8 @@ requirements:
     - {{ posix }}sed               # [win]
     - {{ posix }}coreutils         # [win]
     - {{ posix }}zip               # [win]
+    - cross-r-base {{ r_base }}    # [build_platform != target_platform]
+    - r-mvtnorm                    # [build_platform != target_platform]
   host:
     - libblas
     - liblapack
@@ -48,7 +50,6 @@ about:
   home: https://CRAN.R-project.org/package=pcaPP
   license: GPL-3.0-or-later
   summary: Provides functions for robust PCA by projection pursuit. The methods are described in Croux et al. (2006) <doi:10.2139/ssrn.968376>, Croux et al. (2013) <doi:10.1080/00401706.2012.727746>, Todorov and Filzmoser (2013) <doi:10.1007/978-3-642-33042-1_31>.
-  license_family: GPL3
   license_file:
     - {{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-3
 
