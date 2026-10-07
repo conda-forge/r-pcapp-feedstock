@@ -1,4 +1,4 @@
-{% set version = "2.0-5" %}
+{% set version = "2.0-7" %}
 {% set posix = 'm2-' if win else '' %}
 
 package:
@@ -9,10 +9,10 @@ source:
   url:
     - {{ cran_mirror }}/src/contrib/pcaPP_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/pcaPP/pcaPP_{{ version }}.tar.gz
-  sha256: 674faed967016a19f9d927506d6b3f4fc7ff2b2ab5679b2368429ee2c61b7c10
+  sha256: e75f6bbe7f8d8f8d3ed1a155f850898b48b478368118d6f6e568d2541148159c
 
 build:
-  number: 2
+  number: 0
   rpaths:
     - lib/R/lib/
     - lib/
